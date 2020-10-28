@@ -24,7 +24,7 @@ class Window(Frame):                    #the object is called "Window"
     series_type = "w"                   # set default to weeks
     series_length_w = 52                # set default to 52 weeks of directories (1 year)
     series_length_m = 12                # set default to 12 months of directories (1 year)
-    os_dir_prefix = "c:\\temp\\"          # default location where new directories might be created
+    os_dir_prefix = "c:\\temp\\"        # default location where new directories might be created
     directory_names_list = list()       # instantiate the empty list
     
     def __init__(self, master=None):    # required by Tkinter, this function runs automatically upon object instantiation, setting up all widgets
@@ -32,7 +32,7 @@ class Window(Frame):                    #the object is called "Window"
         self.master = master            # declares the new object as the parent GUI object
 
         # parent widget can take all window space
-        self.pack(fill=BOTH, expand=1) # I am using the GRID geometry (not PACK), but I think this is required for the parent window
+        self.pack(fill=BOTH, expand=1)  # I am using the GRID geometry (not PACK), but I think this is required for the parent window
 
         start_year = IntVar()           # creates instances of variables that can be passsed
         start_month = IntVar()          # between Tkinter and Python.
@@ -87,6 +87,7 @@ class Window(Frame):                    #the object is called "Window"
         self.dir_day = Entry(self, textvariable = start_day, validate="key", validatecommand=validate_cmd)
         self.dir_day.grid(row=7, column=1, padx=5, pady=5, sticky=W)
 
+        #Create other widgets
         # create file directory request button and label to show selected target location
         self.dirLabel = Label(self, text="[not yet selected]")
         self.dirLabel.grid(row=10, column=1, padx=5, pady=5, sticky=W)
@@ -102,6 +103,7 @@ class Window(Frame):                    #the object is called "Window"
         # create a lable describing the Text widgets below
         self.dirListingLabel = Label(self,text="List of Proposed Directories to Create:")
         self.dirListingLabel.grid(row=12, column=0, columnspan=2, padx=6, pady=5, sticky=W)
+        
         # create a Text widget and a Scrollbar to display the list of proposed directories
         self.dirListingLeft = Text(self, height=26, width=50)   #set to default 52 lines of text for 52 weeks
         self.dirListingLeft.grid(row=13, column=0, columnspan=2, padx=5, pady=5, sticky=W)
@@ -110,13 +112,13 @@ class Window(Frame):                    #the object is called "Window"
 
         # create radio buttons and slider widgets to choose between weekly and monthly directories
         # 2 slider widgets built at same location, only 1 is visible depending on which option was selected
-        #weekly radio button and slider
+        # weekly radio button and slider
         self.w_radio_button = Radiobutton(self, text="Weeks", value="w", command=self.wRadioSelect)
         self.w_radio_button.grid(row=0, column=0, padx=5, pady=5, sticky=W)
         self.w_radio_slider = Scale(self, from_=1, to=52, length=220, orient=HORIZONTAL, command=self.wSliderMoved) # max 52 weeks (1 year)
         self.w_radio_slider.grid(row=1, column=0, padx=5, pady=5, columnspan=2, sticky=W) # this slider visible by default
         self.w_radio_slider.set(value=52) #set the slider to the default
-        #monthly radio button and slider
+        # monthly radio button and slider
         self.m_radio_button = Radiobutton(self, text="Months", value="m", command=self.mRadioSelect) # monthly radio button
         self.m_radio_button.grid(row=0, column=1, padx=5, pady=5, sticky=W)
         self.m_radio_slider = Scale(self, from_=1, to=12, length=220, orient=HORIZONTAL, command=self.mSliderMoved) # max 12 months (1 year)
@@ -173,7 +175,6 @@ class Window(Frame):                    #the object is called "Window"
 
     # Command when Weekly Slider Widget is Moved
     def wSliderMoved(self, event):
-        global series_length_w # pull the global into this function
         self.series_length_w = self.w_radio_slider.get() # read the current position of the slider widget
 
     # Command when monthly radio button selected
@@ -188,12 +189,10 @@ class Window(Frame):                    #the object is called "Window"
 
     # Command when Monthly Slider Widget is Moved
     def mSliderMoved(self, event):
-        global series_length_m # pull the global into this function
         self.series_length_m = self.m_radio_slider.get() # read the current position of the slider widget
 
     # Command when the select directory button is activated
     def clickDirButton(self):
-        global os_dir_prefix
         self.os_dir_prefix = filedialog.askdirectory() + "\\"   # uses the operating system's native file dialog GUI widget
         self.dirLabel.config(text=self.os_dir_prefix)    # label to show the user what they selected
         self.updateCurrentDirText()                 # trigger an update based on new user input
