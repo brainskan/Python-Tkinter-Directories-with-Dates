@@ -262,5 +262,5 @@ root.geometry("730x750")
 root.mainloop()
 
 #############
-sys.exit()   #STOPS THE CODE FOR NOW HERE
+sys.exit()
 #############
